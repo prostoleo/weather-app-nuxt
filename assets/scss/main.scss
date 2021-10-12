@@ -1,0 +1,15 @@
+$primary: hsl(193, 86%, 84%);
+$secondary1: hsl(172, 65%, 83%);
+$secondary2: hsl(173, 78%, 89%);
+$accent: hsl(173, 53%, 46%);
+
+$white: hsl(0, 0%, 100%);
+$white80: hsla(0, 0%, 100%, 80%);
+$black: hsl(0, 0%, 0%);
+$black80: hsla(0, 0%, 0%, 80%);
+$black40: hsla(0, 0%, 0%, 40%);
+
+body {
+  background-color: black !important;
+  min-height: 100vh;
+}
