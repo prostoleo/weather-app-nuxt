@@ -1,5 +1,5 @@
 <template>
-  <header class="py-3 bg-dark-300">
+  <header class="py-3">
     <BaseContainer class="flex justify-between items-center mx-auto">
       <!-- <div class="container w-11/12 flex justify-between items-center mx-auto max-w-900px"> -->
       <div class="logo">
@@ -12,7 +12,11 @@
           />
         </nuxt-link>
       </div>
-      <form class="inline-flex items-center" @submit.prevent="submitForm">
+      <form
+        v-if="!notHome"
+        class="inline-flex items-center"
+        @submit.prevent="submitForm"
+      >
         <!-- :class="
             props?.notHome === true
               ? 'text-black border-gray-900'
@@ -37,13 +41,28 @@
           />
         </button>
       </form>
+      <button
+        v-else
+        class="
+          inline-block
+          rounded-2xl
+          bg-white
+          text-black
+          py-2
+          px-3
+          leading-none
+        "
+        @click="getBack"
+      >
+        Вернуться назад
+      </button>
       <!-- </div>  -->
     </BaseContainer>
   </header>
 </template>
 
 <script>
-import { defineComponent, ref } from '@nuxtjs/composition-api';
+import { defineComponent, ref, useRouter } from '@nuxtjs/composition-api';
 
 export default defineComponent({
   name: 'Header',
@@ -59,10 +78,11 @@ export default defineComponent({
   emits: ['submit-form'],
 
   setup(props, { emit }) {
+    // todo используем router
+    const router = useRouter();
+
     console.log('props: ', props);
     const inputValue = ref('');
-
-    const notHome = props.notHome;
 
     function submitForm() {
       if (!inputValue.value) {
@@ -73,11 +93,14 @@ export default defineComponent({
       inputValue.value = '';
     }
 
+    function getBack() {
+      router.go(-1);
+    }
+
     return {
-      // eslint-disable-next-line vue/no-dupe-keys
-      notHome,
       inputValue,
       submitForm,
+      getBack,
     };
   },
 });

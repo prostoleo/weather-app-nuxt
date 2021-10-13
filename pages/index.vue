@@ -1,41 +1,58 @@
 <template>
   <div>
     <section class="min-h-screen pb-7">
+      <!--   -->
       <Header @submit-form="showWeatherOnSearch" />
       <BaseContainer>
-        <!-- <BaseSpinner v-if="loading" />
-        <div v-else-if="error.status"   class="error pt-5 text-center text-white text-lg">
+        <!-- <pre>
+          {{ test }}
+        </pre>
+        <pre>
+          {{ forecasts }}
+        </pre> -->
+        <BaseSpinner v-if="loading" />
+        <div
+          v-else-if="error.status"
+          class="error pt-5 text-center text-white text-lg"
+        >
           Упс, что-то пошло не так 😞. Повторите запрос позже.
-        </div> -->
-        <!-- <div v-else-if="!loading && !getDataOneCallComputed && !gotGeoData" class="error pt-5 text-center text-white text-lg">
+        </div>
+        <div
+          v-else-if="!loading && !getDataOneCallComputed && !gotGeoData"
+          class="error pt-5 text-center text-white text-lg"
+        >
           Наберите название города в строке поиска или разрешите геолокацию
-        </div> -->
+        </div>
 
-        <!-- v-else-if="getDataOneCallComputed" -->
-        <div class="content">
+        <!--  -->
+        <div v-else-if="getDataOneCallComputed" class="content">
           <!-- <span>{{ test }}</span> -->
           <div class="upper-content text-center text-white pt-6">
             <h3 class="date text-sm opacity-80 uppercase"></h3>
-            <!-- {{ compShortDateTime?.date }} -->
-            21.12.21
+            {{ compShortDateTime.date }}
+            <!-- 21.12.21 -->
             <h3 class="time mt-1 text-sm opacity-80"></h3>
-            <!-- {{ compShortDateTime?.time }} -->
-            11:11
+            {{ compShortDateTime.time }}
+            <!-- 11:11 -->
             <h2 class="lоcation mt-3">
-              <!-- {{ locationData?.display_name }} -->
-              Москва
+              {{ locationData.display_name }}
+              <!-- Москва -->
             </h2>
             <h2 class="temperature mt-4 text-4xl font-bold">
-              <!-- {{ Math.round(getDataOneCallComputed?.current.temp) }} -->
-              7
+              {{ Math.round(getDataOneCallComputed.current.temp) }}
+              <!-- 7 -->
             </h2>
 
             <h3 class="description mt-2">
-              <!-- {{ getDataOneCallComputed?.current.weather[0].description }} -->
-              ясно
+              {{ getDataOneCallComputed.current.weather[0].description }}
+              <!-- ясно -->
             </h3>
 
-            <!-- <img :src="`http://openweathermap.org/img/w/${getDataOneCallComputed?.current.weather[0].icon}.png`" alt="облачно с прояснениями" class="description-img rounded-lg mx-auto mt-3 w-12"> -->
+            <img
+              :src="`http://openweathermap.org/img/w/${getDataOneCallComputed.current.weather[0].icon}.png`"
+              alt="облачно с прояснениями"
+              class="description-img rounded-lg mx-auto mt-3 w-12"
+            />
 
             <!-- <div class="main-card mt-5 p-6 pb-7 w-max mx-auto bg-white rounded-3xl text-black flex justify-center gap-x-3 relative"> -->
             <div
@@ -59,7 +76,9 @@
             >
               <div class="col flex flex-col items-center justify-between">
                 <img src="/icons/min.svg" alt="" class="icon w-5 h-5" />
-                <!-- <span class="value block font-bold">{{  Math.round(getDataOneCallComputed?.current.feels_like) }}</span> -->
+                <span class="value block font-bold">
+                  {{ Math.round(getDataOneCallComputed.current.feels_like) }}
+                </span>
                 <span class="naming block">ощущ, &#8451;</span>
               </div>
 
@@ -67,7 +86,14 @@
                 class="col flex flex-col items-center justify-between gap-y-1"
               >
                 <img src="/icons/max.svg" alt="" class="icon w-5 h-5" />
-                <!-- <span class="value block font-bold">{{  Math.round(getDataOneCallComputed?.current.pressure * HPA_TO_MM_OF_MERCURY) }}</span> -->
+                <span class="value block font-bold">
+                  {{
+                    Math.round(
+                      getDataOneCallComputed.current.pressure *
+                        HPA_TO_MM_OF_MERCURY
+                    )
+                  }}
+                </span>
                 <span class="naming block">мм.рт.ст</span>
               </div>
 
@@ -75,7 +101,9 @@
                 class="col flex flex-col items-center justify-between gap-y-1"
               >
                 <img src="/icons/humidity.svg" alt="" class="icon w-5 h-5" />
-                <!-- <span class="value block font-bold">{{  Math.round(getDataOneCallComputed?.current.humidity) }}%</span> -->
+                <span class="value block font-bold">
+                  {{ Math.round(getDataOneCallComputed.current.humidity) }}%
+                </span>
                 <span class="naming block">влаж</span>
               </div>
 
@@ -87,14 +115,20 @@
                   alt=""
                   class="icon w-5 h-5 opacity-50"
                 />
-                <!-- <span class="value block font-bold">{{  Math.round(getDataOneCallComputed?.current.wind_speed) }} м/с
-                </span> -->
+                <span class="value block font-bold">
+                  {{ Math.round(getDataOneCallComputed.current.wind_speed) }}
+                  м/с
+                </span>
                 <span class="naming block">
-                  <!-- {{ windTextualDescription(getDataOneCallComputed?.current.wind_deg) }} -->
+                  {{
+                    windTextualDescription(
+                      getDataOneCallComputed.current.wind_deg
+                    )
+                  }}
                 </span>
               </div>
 
-              <router-link
+              <nuxt-link
                 tag="a"
                 to="/details"
                 class="
@@ -104,10 +138,7 @@
                   px-3
                   leading-none
                   text-dark-900 text-sm
-                  inline-flex
-                  items-center
-                  justify-center
-                  align-baseline
+                  inline-block
                   absolute
                   top-full
                   left-2/4
@@ -118,7 +149,7 @@
                 "
               >
                 Подробнее
-              </router-link>
+              </nuxt-link>
             </div>
           </div>
 
@@ -136,9 +167,9 @@
                 hover:(!border-opacity-100)
               "
             >
-              <router-link to="/forecast" tag="a" class="text-white"
-                >Прогноз на 7 дней</router-link
-              >
+              <nuxt-link to="/forecast" tag="a" class="text-white">
+                Прогноз на 7 дней
+              </nuxt-link>
             </h2>
 
             <div
@@ -151,7 +182,11 @@
                 overflow-x-auto
               "
             >
-              <!-- <IndexForecastCard v-for="forecast in getDataOneCallComputed?.daily.slice(1)" :key="forecast" :data="forecast" /> -->
+              <IndexForecastCard
+                v-for="forecast in getDataOneCallComputed.daily.slice(1)"
+                :key="forecast.dt"
+                :data="forecast"
+              />
             </div>
           </div>
 
@@ -161,7 +196,7 @@
             {{ data }}
           </pre> -->
           <pre class="text-gray-50">
-            <!-- {{ getDataOneCallComputed }} -->
+            {{ getDataOneCallComputed }}
           </pre>
         </div>
       </BaseContainer>
@@ -171,26 +206,106 @@
 
 <script>
 // todo  получаем инфу из конфига
-import { defineComponent } from '@nuxtjs/composition-api';
-// import { useWeather } from '~/composables/useWeather.js';
-// import { useDate } from '~/composables/useDate.js';
-// import { useWind } from '~/composables/useWind.js';
+// eslint-disable-next-line no-unused-vars
+import { defineComponent, useStore, ref } from '@nuxtjs/composition-api';
+import { useWeather } from '../composables/useWeather';
+import { useDate } from '~/composables/useDate.js';
+import { useWind } from '~/composables/useWind.js';
 
-// import { HPA_TO_MM_OF_MERCURY } from '~/config/config.js';
+import { HPA_TO_MM_OF_MERCURY } from '~/config/config.js';
 
 // todo получаем инфу по странам
 // import { getCountryByCode } from '~/data/data.js';
 
 // import { useWeatherStore } from '~/stores/weather.ts';
 
-export default defineComponent({});
+export default defineComponent({
+  setup() {
+    // todo используем store
+    const store = useStore();
+
+    const test = store.getters.getTest;
+
+    // todo для карточек прогноза на 7 дней
+    const forecasts = ref(null);
+
+    // const dataToShow
+
+    // todo используем composable с получением данных
+    const {
+      dataOneCall,
+      loading,
+      error,
+      gotGeoData,
+      locationData,
+      getDataOneCallComputed,
+      getGeocoding,
+      getOneCallData,
+    } = useWeather();
+
+    forecasts.value = getDataOneCallComputed?.daily;
+
+    // =====================================
+
+    // todo используем composable для получения даты
+    const { compShortDateTime } = useDate(getDataOneCallComputed);
+
+    // todo используем composable для получения даты
+    const { windTextualDescription } = useWind(getDataOneCallComputed);
+
+    async function showWeatherOnSearch(searchQuery) {
+      console.log('searchQuery: ', searchQuery);
+
+      await getGeocoding(searchQuery);
+      // console.log('coords: ', coords);
+
+      //* добавляем поисковый запрос в store
+      store.addQuery(searchQuery);
+      //* добавляем координаты в store
+      // store.addCoords(coords);
+
+      await getOneCallData();
+
+      console.log('dataOneCall: ', dataOneCall);
+      console.log('getDataOneCallComputed: ', getDataOneCallComputed);
+    }
+
+    return {
+      /* forecasts,
+      loading,
+      error,
+      gotGeoData,
+      locationData,
+      getDataOneCallComputed,
+      getGeocoding,
+      getOneCallData,
+      compShortDateTime,
+      windTextualDescription,
+      showWeatherOnSearch,
+      HPA_TO_MM_OF_MERCURY, */
+      loading,
+      error,
+      test,
+      forecasts,
+      locationData,
+      gotGeoData,
+      windTextualDescription,
+      compShortDateTime,
+      getDataOneCallComputed,
+      showWeatherOnSearch,
+      HPA_TO_MM_OF_MERCURY,
+    };
+  },
+});
 </script>
 
 <style lang="scss" scoped>
+/*  @use '~/assets/scss/main.scss' as *; */
+
 section {
-  // background: url("/public/img/bg/bg-main.jpg");
+  /* background: url('/public/img/bg/bg-main.jpg'); */
   background: url(https://images.unsplash.com/photo-1543699936-c901ddbf0c05?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80)
-    $black40;
+    hsla(0, 0%, 0%, 40%);
   background-blend-mode: overlay;
   background-size: cover;
   background-position: center center;
