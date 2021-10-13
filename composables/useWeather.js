@@ -19,7 +19,7 @@ import {
 
 export function useWeather(indexPage = true) {
   //* для основных данных
-  const data = ref(null);
+  // const data = ref(null);
 
   //* для всех данных сразу
   const dataOneCall = ref(null);
@@ -57,12 +57,15 @@ export function useWeather(indexPage = true) {
   async function getWeatherData() {
     loading.value = true;
 
-    const dataFromStore = store.getters.getWeatherNow;
+    const dataFromStore = store.getters.getWeather;
     console.log('dataFromStore: ', dataFromStore);
+    const location = store.getters.getLocation;
 
     //* если получили данные из store - записываем данные и выходим из функции
-    if (dataFromStore) {
-      data.value = dataFromStore;
+    if (dataFromStore && location) {
+      dataOneCall.value = dataFromStore;
+      locationData.display_name = location.display_name;
+      locationData.icon = location.icon;
 
       return;
     }
@@ -105,9 +108,11 @@ export function useWeather(indexPage = true) {
   async function successGetGeoData(pos) {
     console.log('store.getQuery: ', store.getQuery);
 
+    const query = store.getters.getQuery;
+
     loading.value = true;
 
-    if (store.getters.getQuery) {
+    if (query) {
       console.log(' грузим существующие данные ');
 
       await getOneCallData();
@@ -185,6 +190,9 @@ export function useWeather(indexPage = true) {
     locationData.display_name = result[0].display_name;
     locationData.icon = result[0].icon;
 
+    store.dispatch('addLocation', locationData);
+    localStorage.setItem('location', JSON.stringify(locationData));
+
     return {
       // coords,
       locationData,
@@ -224,14 +232,19 @@ export function useWeather(indexPage = true) {
     //* сохраняем необходимые данные
     locationData.display_name = result.display_name;
     locationData.icon = result?.icon;
+
+    store.dispatch('addLocation', locationData);
+
+    localStorage.setItem('location', JSON.stringify(locationData));
   }
 
   // todo для oneCall API
   async function getOneCallData() {
     // const store = useWeatherStore();
     console.log('store: ', store);
-    const coords = store.getters.getCoords;
-    // const coords = store.getCoords ?? JSON.parse(localStorage.getItem('coords'));
+    // const coords = store.getters.getCoords;
+    const coords =
+      store.getters.getCoords ?? JSON.parse(localStorage.getItem('coords'));
     // console.log('coords in getOneCallData(): ', cds);
 
     const exclude = 'minutely,alerts';
@@ -261,19 +274,21 @@ export function useWeather(indexPage = true) {
 
     dataOneCall.value = resultOneCall;
 
-    // todo работа с pinia store
     // store.addWeatherNow(resultOneCall);
     store.dispatch('addWeather', resultOneCall);
+    localStorage.setItem('weather', JSON.stringify(resultOneCall));
 
     // return result;
     loading.value = false;
+
+    return resultOneCall;
   }
 
   //* наблюдаем за функцией для получения основных данных
-  watch(getWeatherData, (newVal) => {
+  /* watch(getWeatherData, (newVal) => {
     console.log('newVal: ', newVal);
     // data.value = await newVal;
-  });
+  }); */
 
   watchEffect(
     getWeatherData,
@@ -285,6 +300,14 @@ export function useWeather(indexPage = true) {
     }
   );
 
+  watch(getOneCallData, (newVal, oldVal) => {
+    if (!newVal.current) return;
+
+    if (newVal.current.dt !== oldVal.current.dt) {
+      dataOneCall.value = newVal;
+    }
+  });
+
   /* watch(getOneCallData, () => {
 
   }); */
@@ -292,6 +315,8 @@ export function useWeather(indexPage = true) {
   // const getDataComputed = computed(() => data.value);
 
   const getDataOneCallComputed = computed(() => dataOneCall.value);
+
+  const loadingComp = computed(() => loading.value);
 
   // todo работа с pinia store
   // store.addWeatherNow(dataOneCall);
@@ -311,5 +336,6 @@ export function useWeather(indexPage = true) {
     getWeatherData,
     // getDataComputed,
     getDataOneCallComputed,
+    loadingComp,
   };
 }

@@ -2,10 +2,10 @@
   <section class="bg-primary min-h-screen pb-10">
     <Header :not-home="true" />
     <BaseContainer>
-      это детали
-      <pre>
+      <!-- это детали -->
+      <!-- <pre>
         {{ data }}
-      </pre>
+      </pre> -->
       <!-- <pre>
         {{ coords }}
       </pre> -->
@@ -13,16 +13,16 @@
       <div v-if="!data" class="error text-center text-black text-lg">
         Упс, что-то пошло не так 😞. Повторите запрос позже.
       </div>
-      <!-- <div v-else class="content text-center pt-5">
+      <div v-else class="content text-center pt-5">
         <div class="upper-content text-center text-black">
           <h3 class="date text-sm opacity-80 uppercase">
-            {{ compShortDateTime?.date }}
+            {{ shortDate.date }}
           </h3>
           <h3 class="time mt-1 text-sm opacity-80">
-            {{ compShortDateTime?.time }}
+            {{ shortDate.time }}
           </h3>
           <h2 class="lоcation mt-3">
-            {{ locationData?.display_name }}
+            {{ locationData.display_name }}
           </h2>
           <h2 class="temperature mt-4 text-4xl font-bold">
             {{ Math.round(data.current.temp) }}
@@ -196,15 +196,14 @@
               <div class="card p-2 rounded-2xl bg-secondary1">
                 <p class="text-sm text-left">
                   {{ windTextualDescription(data.current.wind_deg) }},
-                  {{ data.current.wind_speed.toFixed(1) }} м/с
+                  <b>{{ data.current.wind_speed.toFixed(1) }}</b> м/с
                 </p>
                 <p
                   v-if="data.daily[0].wind_gust"
                   class="text-sm text-left mt-1"
                 >
                   c порывами, до
-                  {{ data.daily[0].wind_gust.toFixed(1) }}
-                  м/с
+                  <b>{{ data.daily[0].wind_gust.toFixed(1) }} м/с</b>
                 </p>
               </div>
             </div>
@@ -225,11 +224,17 @@
               </h2>
 
               <div class="card p-2 rounded-2xl bg-secondary1">
-                <p class="text-sm text-left">Восход - <b>{{ sunriseComp }}</b></p>
+                <p class="text-sm text-left">
+                  Восход - <b>{{ sunriseComp }}</b>
+                </p>
 
-                <p class="text-sm text-left mt-1">Закат - <b>{{ sunsetComp }}</b></p>
+                <p class="text-sm text-left mt-1">
+                  Закат - <b>{{ sunsetComp }}</b>
+                </p>
 
-                <p class="text-sm text-left mt-1">Продолжительность дня - <b>{{ durationOfDay }}</b></p>
+                <p class="text-sm text-left mt-1">
+                  Продолжительность дня - <b>{{ durationOfDay }}</b>
+                </p>
               </div>
             </div>
           </div>
@@ -249,28 +254,93 @@
             />
           </div>
         </div>
-      </div> -->
+      </div>
     </BaseContainer>
   </section>
 </template>
 
 <script>
-import { defineComponent, useStore } from '@nuxtjs/composition-api';
+import { defineComponent, useStore, computed } from '@nuxtjs/composition-api';
+
+import { HPA_TO_MM_OF_MERCURY } from '~/config/config';
 
 // import { useWeather } from '../composables/useWeather';
 // import { useDate } from '~/composables/useDate.js';
 import { useWind } from '~/composables/useWind.js';
+import { useDate } from '~/composables/useDate.js';
+import { getLocalSunriseSunset } from '~/helpers/helpers.js';
 
 export default defineComponent({
   setup(props) {
     const store = useStore();
     const { windTextualDescription } = useWind();
 
-    const data = store.getters.getWeather;
+    const data =
+      store.getters.getWeather ?? JSON.parse(localStorage.getItem('weather'));
+
+    const { compShortDateTime, getLocalDate } = useDate(data);
+
+    const locationData =
+      store.getters.getLocation ?? JSON.parse(localStorage.getItem('location'));
+    console.log('locationData: ', locationData);
+
+    const shortDate = computed(() => {
+      const locale = navigator.language;
+
+      if (data) {
+        //* получаем реальную дату по локальному timestamp
+        const realDate = getLocalDate(data.timezone_offset);
+        // const realDate = getLocalDate(timezone);
+
+        const date = Intl.DateTimeFormat(locale, {
+          weekday: 'short',
+          day: 'numeric',
+          month: 'short',
+        }).format(realDate);
+
+        const time = Intl.DateTimeFormat(locale, {
+          hour: '2-digit',
+          minute: '2-digit',
+        }).format(realDate);
+
+        return {
+          date,
+          time,
+        };
+        // return getData.value.dt;
+      }
+    });
+
+    const durationOfDay = computed(() => {
+      const durationSec = data?.current?.sunset - data?.current?.sunrise;
+
+      const hours = Math.trunc(durationSec / 3600);
+      // console.log('hours: ', hours);
+      const minutes = Math.floor((durationSec - hours * 3600) / 60);
+      // console.log('minutes: ', minutes);
+
+      return `${hours} ч. ${minutes} мин.`;
+    });
+
+    const sunriseComp = computed(() => {
+      return getLocalSunriseSunset(data.current?.sunrise, data.timezone_offset);
+    });
+
+    const sunsetComp = computed(() => {
+      return getLocalSunriseSunset(data.current.sunset, data?.timezone_offset);
+    });
 
     return {
       data,
       windTextualDescription,
+      HPA_TO_MM_OF_MERCURY,
+      compShortDateTime,
+      shortDate,
+      locationData,
+
+      durationOfDay,
+      sunriseComp,
+      sunsetComp,
     };
   },
 });

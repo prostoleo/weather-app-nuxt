@@ -10,9 +10,10 @@
         <pre>
           {{ forecasts }}
         </pre> -->
-        <BaseSpinner v-if="loading" />
+        <BaseSpinner v-if="loading && !getDataOneCallComputed" />
+        <!-- v-if="!loading && error.status" -->
         <div
-          v-else-if="error.status"
+          v-else-if="!loading && error.status"
           class="error pt-5 text-center text-white text-lg"
         >
           Упс, что-то пошло не так 😞. Повторите запрос позже.
@@ -35,8 +36,9 @@
             {{ compShortDateTime.time }}
             <!-- 11:11 -->
             <h2 class="lоcation mt-3">
-              {{ locationData.display_name }}
               <!-- Москва -->
+              {{ locationData.display_name }}
+              <!-- {{ location.display_name }} -->
             </h2>
             <h2 class="temperature mt-4 text-4xl font-bold">
               {{ Math.round(getDataOneCallComputed.current.temp) }}
@@ -195,9 +197,9 @@
           <!-- <pre class="text-gray-50 ">
             {{ data }}
           </pre> -->
-          <pre class="text-gray-50">
+          <!-- <pre class="text-gray-50">
             {{ getDataOneCallComputed }}
-          </pre>
+          </pre> -->
         </div>
       </BaseContainer>
     </section>
@@ -207,8 +209,13 @@
 <script>
 // todo  получаем инфу из конфига
 // eslint-disable-next-line no-unused-vars
-import { defineComponent, useStore, ref } from '@nuxtjs/composition-api';
-import { useWeather } from '../composables/useWeather';
+import {
+  defineComponent,
+  useStore,
+  ref,
+  // computed,
+} from '@nuxtjs/composition-api';
+import { useWeather } from '~/composables/useWeather';
 import { useDate } from '~/composables/useDate.js';
 import { useWind } from '~/composables/useWind.js';
 
@@ -223,8 +230,10 @@ export default defineComponent({
   setup() {
     // todo используем store
     const store = useStore();
+    console.log('store: ', store);
 
-    const test = store.getters.getTest;
+    // const test = store.getters.getTest;
+    // const loadingLocal = ref(false);
 
     // todo для карточек прогноза на 7 дней
     const forecasts = ref(null);
@@ -233,8 +242,9 @@ export default defineComponent({
 
     // todo используем composable с получением данных
     const {
-      dataOneCall,
+      // dataOneCall,
       loading,
+      // loadingComp,
       error,
       gotGeoData,
       locationData,
@@ -245,6 +255,9 @@ export default defineComponent({
 
     forecasts.value = getDataOneCallComputed?.daily;
 
+    // const location = computed(() => {
+    //   return locationData.value ?? JSON.parse(localStorage.getItem('location'));
+    // });
     // =====================================
 
     // todo используем composable для получения даты
@@ -256,18 +269,28 @@ export default defineComponent({
     async function showWeatherOnSearch(searchQuery) {
       console.log('searchQuery: ', searchQuery);
 
+      /* store.dispatch('addQuery', searchQuery);
+      getGeocoding(searchQuery)
+        // .then(() => {
+        //   //* добавляем поисковый запрос в store
+        // })
+        .then(() => {
+          //* добавляем координаты в store
+          // store.addCoords(coords);
+
+          getOneCallData();
+
+          console.log('dataOneCall: ', dataOneCall);
+          console.log('getDataOneCallComputed: ', getDataOneCallComputed);
+        })
+        .then(() => {
+          // loading.value = false;
+        }); */
+
+      store.dispatch('addQuery', searchQuery);
+
       await getGeocoding(searchQuery);
-      // console.log('coords: ', coords);
-
-      //* добавляем поисковый запрос в store
-      store.addQuery(searchQuery);
-      //* добавляем координаты в store
-      // store.addCoords(coords);
-
       await getOneCallData();
-
-      console.log('dataOneCall: ', dataOneCall);
-      console.log('getDataOneCallComputed: ', getDataOneCallComputed);
     }
 
     return {
@@ -284,10 +307,11 @@ export default defineComponent({
       showWeatherOnSearch,
       HPA_TO_MM_OF_MERCURY, */
       loading,
+      // loadingComp,
       error,
-      test,
       forecasts,
       locationData,
+      // location,
       gotGeoData,
       windTextualDescription,
       compShortDateTime,

@@ -1,6 +1,6 @@
 <template>
-  <div>это карточка</div>
-  <!-- <div
+  <!-- <div>это карточка</div> -->
+  <div
     class="
       down-part__card
       card
@@ -46,7 +46,7 @@
             gap-x-2
           "
         >
-          <span>{{ Math.round(data?.temp) }}</span>
+          <span>{{ Math.round(data.temp) }}</span>
           <span>{{ data.weather[0].description }}</span>
         </h4>
       </div>
@@ -112,7 +112,7 @@
         <span class="value block">{{ data.clouds }}</span>
       </div>
     </div>
-  </div> -->
+  </div>
 </template>
 
 <script>

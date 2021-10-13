@@ -41,7 +41,7 @@
           />
         </button>
       </form>
-      <button
+      <nuxt-link
         v-else
         class="
           inline-block
@@ -52,17 +52,22 @@
           px-3
           leading-none
         "
-        @click="getBack"
+        to="/"
       >
-        Вернуться назад
-      </button>
+        На главную
+      </nuxt-link>
       <!-- </div>  -->
     </BaseContainer>
   </header>
 </template>
 
 <script>
-import { defineComponent, ref, useRouter } from '@nuxtjs/composition-api';
+import {
+  defineComponent,
+  ref,
+  useRouter,
+  // useStore,
+} from '@nuxtjs/composition-api';
 
 export default defineComponent({
   name: 'Header',
@@ -80,6 +85,10 @@ export default defineComponent({
   setup(props, { emit }) {
     // todo используем router
     const router = useRouter();
+    console.log('router: ', router);
+
+    // todo используем store
+    // const store = useStore();
 
     console.log('props: ', props);
     const inputValue = ref('');
@@ -90,17 +99,17 @@ export default defineComponent({
       }
 
       emit('submit-form', inputValue.value);
+      // store.dispatch('addQuery', inputValue.value);
       inputValue.value = '';
     }
 
-    function getBack() {
+    /* function getBack() {
       router.go(-1);
-    }
+    } */
 
     return {
       inputValue,
       submitForm,
-      getBack,
     };
   },
 });

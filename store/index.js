@@ -1,8 +1,11 @@
+export const strict = false;
+
 // * state
 export const state = () => ({
   weather: null,
   query: '',
   coords: null,
+  location: null,
   test: 7,
 });
 
@@ -21,12 +24,18 @@ export const getters = {
   getCoords: (state) => {
     console.log('state: ', state);
     console.log('getter - getCoords: ', state.coords);
-    return state?.coords;
+    return state.coords;
+  },
+
+  getLocation: (state) => {
+    console.log('state: ', state);
+    console.log('getter - getLocation: ', state.location);
+    return state.location;
   },
 
   getQuery: (state) => {
     console.log('getter - getQuery: ', state.query);
-    return state?.query;
+    return state.query;
   },
 };
 
@@ -45,6 +54,15 @@ export const actions = {
     // if (!cds) return;
 
     context.commit('addCoords', cds);
+  },
+
+  addLocation(context, location) {
+    console.log('location in addLocation action: ', location);
+    localStorage.setItem('location', JSON.stringify(location));
+
+    // if (!cds) return;
+
+    context.commit('addLocation', location);
   },
 
   addQuery(context, q) {
@@ -66,6 +84,11 @@ export const mutations = {
   addCoords(state, cds) {
     state.coords = cds;
     console.log('cds in addCoords mutation: ', state.coords);
+  },
+
+  addLocation(state, location) {
+    state.location = location;
+    console.log('location in addLocation mutation: ', state.location);
   },
 
   addQuery(state, q) {
