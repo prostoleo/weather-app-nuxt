@@ -38,8 +38,8 @@
             <h2 class="lоcation mt-3">
               <!-- Москва -->
               <!-- {{ locationData }} -->
-              {{ locationData.display_name }}
-              <!-- {{ location.display_name }} -->
+              <!-- {{ locationData.display_name }} -->
+              {{ location.display_name }}
             </h2>
             <h2 class="temperature mt-4 text-4xl font-bold">
               {{ Math.round(getDataOneCallComputed.current.temp) }}
@@ -213,7 +213,7 @@ import {
   defineComponent,
   useStore,
   ref,
-  computed,
+  // computed,
 } from '@nuxtjs/composition-api';
 import { useWeather } from '~/composables/useWeather';
 import { useDate } from '~/composables/useDate.js';
@@ -249,7 +249,8 @@ export default defineComponent({
       error,
       // gotGeoData,
       gotGeoDataComp,
-      locationData,
+      // locationData,
+      location,
       getDataOneCallComputed,
       getGeocoding,
       getOneCallData,
@@ -275,21 +276,21 @@ export default defineComponent({
       await getOneCallData();
     }
 
-    const location = computed(() => {
+    /* const location = computed(() => {
       if (!gotGeoDataComp && !store.getters.getQuery) {
         return JSON.parse(localStorage.getItem('location'));
       }
 
-      /* if (gotGeoDataComp && store.getters.getQuery) {
-        return JSON.parse(localStorage.getItem('location'));
-      } */
+      // if (gotGeoDataComp && store.getters.getQuery) {
+      //   return JSON.parse(localStorage.getItem('location'));
+      // }
 
-      /* if (store.getters.getQuery) {
-        return locationData;
-      } */
+      // if (store.getters.getQuery) {
+      //   return locationData;
+      // }
 
       return locationData;
-    });
+    }); */
 
     return {
       /* forecasts,
@@ -308,8 +309,8 @@ export default defineComponent({
       // loadingComp,
       error,
       forecasts,
-      locationData: location,
-      // location,
+      // locationData: location,
+      location,
       gotGeoDataComp,
       windTextualDescription,
       compShortDateTime,

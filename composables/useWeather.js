@@ -288,6 +288,14 @@ export function useWeather(indexPage = true) {
 
   const gotGeoDataComp = computed(() => gotGeoData.value);
 
+  const location = computed(() => {
+    if (locationData.display_name) {
+      return locationData;
+    }
+
+    return JSON.parse(localStorage.getItem('location'));
+  });
+
   // todo работа с pinia store
   // store.addWeatherNow(dataOneCall);
 
@@ -297,7 +305,8 @@ export function useWeather(indexPage = true) {
     loading: readonly(loading),
     // gotGeoData: readonly(gotGeoData),
     gotGeoDataComp: readonly(gotGeoDataComp),
-    locationData: readonly(locationData),
+    // locationData: readonly(locationData),
+    location,
 
     getGeocoding,
     getOneCallData,
