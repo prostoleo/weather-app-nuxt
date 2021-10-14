@@ -52,7 +52,7 @@
               text-black
               flex flex-col
               justify-center
-              gap-y-1
+              gap-y-2
               drop-shadow-lg
             "
           >
@@ -66,7 +66,7 @@
                 text-left
               "
             >
-              <span class="key text-sm font-thin text-black80 block w-8/12">
+              <span class="key font-thin text-black80 block w-8/12">
                 Ощущается как, &#8451;
               </span>
               <span class="value font-semibold text-black block w-3/12">
@@ -83,9 +83,7 @@
                 text-left
               "
             >
-              <span class="key text-sm font-thin text-black80 block w-8/12">
-                Мин., &#8451;
-              </span>
+              <span class="key text-black80 block w-8/12"> Мин., &#8451; </span>
               <span class="value font-semibold text-black block w-3/12">
                 {{ Math.round(data.daily[0].temp.min) }}
               </span>
@@ -100,7 +98,7 @@
                 text-left
               "
             >
-              <span class="key text-sm font-thin text-black80 block w-8/12">
+              <span class="key text-black80 block w-8/12">
                 Макс., &#8451;
               </span>
               <span class="value font-semibold text-black block w-3/12">
@@ -117,9 +115,7 @@
                 text-left
               "
             >
-              <span class="key text-sm font-thin text-black80 block w-8/12">
-                Влажность, %
-              </span>
+              <span class="key text-black80 block w-8/12"> Влажность, % </span>
               <span class="value font-semibold text-black block w-3/12">
                 {{ Math.round(data.daily[0].humidity) }}
               </span>
@@ -134,7 +130,7 @@
                 text-left
               "
             >
-              <span class="key text-sm font-thin text-black80 block w-8/12">
+              <span class="key text-black80 block w-8/12">
                 Давление, мм.рт.ст.
               </span>
               <span class="value font-semibold text-black block w-3/12">
@@ -151,9 +147,7 @@
                 text-left
               "
             >
-              <span class="key text-sm font-thin text-black80 block w-8/12">
-                Видимость, м.
-              </span>
+              <span class="key text-black80 block w-8/12"> Видимость, м. </span>
               <span class="value font-semibold text-black block w-3/12">
                 {{ data.current.visibility }}
               </span>
@@ -168,17 +162,17 @@
                 text-left
               "
             >
-              <span class="key text-sm font-thin text-black80 block w-8/12">
-                Облачность, %
-              </span>
+              <span class="key text-black80 block w-8/12"> Облачность, % </span>
               <span class="value font-semibold text-black block w-3/12">
                 {{ data.current.clouds }}
               </span>
             </div>
           </div>
 
-          <div class="two-cards flex items-stretch gap-x-3">
-            <div class="left flex flex-col w-12/12 max-w-300px">
+          <div
+            class="two-cards flex items-stretch gap-x-3 mx-auto justify-center"
+          >
+            <div class="left flex flex-col w-12/12 max-w-350px">
               <h2
                 class="
                   inline-flex
@@ -194,21 +188,18 @@
               </h2>
 
               <div class="card p-2 rounded-2xl bg-secondary1">
-                <p class="text-sm text-left">
+                <p class="text-left">
                   {{ windTextualDescription(data.current.wind_deg) }},
                   <b>{{ data.current.wind_speed.toFixed(1) }}</b> м/с
                 </p>
-                <p
-                  v-if="data.daily[0].wind_gust"
-                  class="text-sm text-left mt-1"
-                >
+                <p v-if="data.daily[0].wind_gust" class="text-left mt-1">
                   c порывами, до
                   <b>{{ data.daily[0].wind_gust.toFixed(1) }} м/с</b>
                 </p>
               </div>
             </div>
 
-            <div class="right flex flex-col w-12/12 max-w-300px">
+            <div class="right flex flex-col w-12/12 max-w-350px">
               <h2
                 class="
                   inline-flex
@@ -224,15 +215,15 @@
               </h2>
 
               <div class="card p-2 rounded-2xl bg-secondary1">
-                <p class="text-sm text-left">
+                <p class="text-left">
                   Восход - <b>{{ sunriseComp }}</b>
                 </p>
 
-                <p class="text-sm text-left mt-1">
+                <p class="text-left mt-1">
                   Закат - <b>{{ sunsetComp }}</b>
                 </p>
 
-                <p class="text-sm text-left mt-1">
+                <p class="text-left mt-1">
                   Продолжительность дня - <b>{{ durationOfDay }}</b>
                 </p>
               </div>

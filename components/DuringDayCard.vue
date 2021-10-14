@@ -57,10 +57,14 @@
         <span class="key inline-flex items-center">
           Ощущается как
 
-          <img class="w-6 ml-1" src="/icons/wind.svg" alt="" />
+          <img
+            class="w-5 ml-2 opacity-80"
+            src="/icons/feels-like.svg"
+            alt="Иконка - Ощущается как"
+          />
         </span>
 
-        <span class="value">
+        <span class="value font-bold">
           {{ Math.round(data.feels_like) }}
         </span>
       </div>
@@ -68,28 +72,40 @@
         <span class="key inline-flex items-center">
           Ветер, ю-в
 
-          <img class="w-6 ml-1" src="/icons/wind.svg" alt="" />
+          <img
+            class="w-5 ml-2 opacity-80"
+            src="/icons/wind.svg"
+            alt="Иконка - Ветер"
+          />
         </span>
 
-        <span class="value">2 м/с</span>
+        <span class="value font-bold">2 м/с</span>
       </div>
       <div class="card__row">
         <span class="key inline-flex items-center">
           Влажность
 
-          <img class="w-6 ml-1" src="/icons/humidity.svg" alt="" />
+          <img
+            class="w-5 ml-2 opacity-80"
+            src="/icons/humidity.svg"
+            alt="Иконка - Влажность"
+          />
         </span>
 
-        <span class="value">{{ data.humidity }} %</span>
+        <span class="value font-bold">{{ data.humidity }} %</span>
       </div>
       <div class="card__row">
         <span class="key inline-flex items-center text-left">
           <span>Давление, мм. рт. ст.</span>
 
-          <img class="w-6 ml-1" src="/icons/wind.svg" alt="" />
+          <img
+            class="w-5 ml-2 opacity-80"
+            src="/icons/pressure.svg"
+            alt="Иконка - давление"
+          />
         </span>
 
-        <span class="value block">{{
+        <span class="value font-bold block">{{
           Math.round(data.pressure * HPA_TO_MM_OF_MERCURY)
         }}</span>
       </div>
@@ -97,19 +113,27 @@
         <span class="key inline-flex items-center text-left">
           <span>Видимость, м.</span>
 
-          <img class="w-6 ml-1" src="/icons/wind.svg" alt="" />
+          <img
+            class="w-5 ml-2 opacity-80"
+            src="/icons/visibility.svg"
+            alt="Иконка - видимость"
+          />
         </span>
 
-        <span class="value block">{{ data.visibility }}</span>
+        <span class="value font-bold block">{{ data.visibility }}</span>
       </div>
       <div class="card__row">
         <span class="key inline-flex items-center text-left">
           <span>Облачность, %</span>
 
-          <img class="w-6 ml-1" src="/icons/wind.svg" alt="" />
+          <img
+            class="w-5 ml-2 opacity-80"
+            src="/icons/clouds.svg"
+            alt="Иконка - облачность"
+          />
         </span>
 
-        <span class="value block">{{ data.clouds }}</span>
+        <span class="value font-bold block">{{ data.clouds }}</span>
       </div>
     </div>
   </div>

@@ -16,6 +16,7 @@ export function getLocalSunriseSunset(time, timezone) {
   const newDate = new Date(newTS);
 
   return Intl.DateTimeFormat(locale, {
+    // weekday: 'short',
     hour: '2-digit',
     minute: '2-digit',
   }).format(newDate);

@@ -19,7 +19,7 @@
           Упс, что-то пошло не так 😞. Повторите запрос позже.
         </div>
         <div
-          v-else-if="!loading && !getDataOneCallComputed && !gotGeoData"
+          v-else-if="!loading && !getDataOneCallComputed && !gotGeoDataComp"
           class="error pt-5 text-center text-white text-lg"
         >
           Наберите название города в строке поиска или разрешите геолокацию
@@ -37,6 +37,7 @@
             <!-- 11:11 -->
             <h2 class="lоcation mt-3">
               <!-- Москва -->
+              <!-- {{ locationData }} -->
               {{ locationData.display_name }}
               <!-- {{ location.display_name }} -->
             </h2>
@@ -213,7 +214,7 @@ import {
   defineComponent,
   useStore,
   ref,
-  // computed,
+  computed,
 } from '@nuxtjs/composition-api';
 import { useWeather } from '~/composables/useWeather';
 import { useDate } from '~/composables/useDate.js';
@@ -227,6 +228,8 @@ import { HPA_TO_MM_OF_MERCURY } from '~/config/config.js';
 // import { useWeatherStore } from '~/stores/weather.ts';
 
 export default defineComponent({
+  transition: 'slide-left',
+
   setup() {
     // todo используем store
     const store = useStore();
@@ -246,7 +249,8 @@ export default defineComponent({
       loading,
       // loadingComp,
       error,
-      gotGeoData,
+      // gotGeoData,
+      gotGeoDataComp,
       locationData,
       getDataOneCallComputed,
       getGeocoding,
@@ -293,6 +297,22 @@ export default defineComponent({
       await getOneCallData();
     }
 
+    const location = computed(() => {
+      if (!gotGeoDataComp && !store.getters.getQuery) {
+        return JSON.parse(localStorage.getItem('location'));
+      }
+
+      /* if (gotGeoDataComp && store.getters.getQuery) {
+        return JSON.parse(localStorage.getItem('location'));
+      } */
+
+      /* if (store.getters.getQuery) {
+        return locationData;
+      } */
+
+      return locationData;
+    });
+
     return {
       /* forecasts,
       loading,
@@ -310,9 +330,9 @@ export default defineComponent({
       // loadingComp,
       error,
       forecasts,
-      locationData,
+      locationData: location,
       // location,
-      gotGeoData,
+      gotGeoDataComp,
       windTextualDescription,
       compShortDateTime,
       getDataOneCallComputed,
