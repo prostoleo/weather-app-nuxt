@@ -66,7 +66,7 @@
                 text-left
               "
             >
-              <span class="key font-thin text-black80 block w-8/12">
+              <span class="key text-black80 block w-8/12">
                 Ощущается как, &#8451;
               </span>
               <span class="value font-semibold text-black block w-3/12">
@@ -273,7 +273,6 @@ export default defineComponent({
 
     const locationData =
       store.getters.getLocation ?? JSON.parse(localStorage.getItem('location'));
-    console.log('locationData: ', locationData);
 
     const shortDate = computed(() => {
       const locale = navigator.language;
@@ -306,9 +305,7 @@ export default defineComponent({
       const durationSec = data?.current?.sunset - data?.current?.sunrise;
 
       const hours = Math.trunc(durationSec / 3600);
-      // console.log('hours: ', hours);
       const minutes = Math.floor((durationSec - hours * 3600) / 60);
-      // console.log('minutes: ', minutes);
 
       return `${hours} ч. ${minutes} мин.`;
     });

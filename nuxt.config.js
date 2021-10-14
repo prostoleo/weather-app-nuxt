@@ -24,6 +24,10 @@ export default {
           "this.onload=null; this.rel='stylesheet'; document.body.classList.add('fontLoaded')",
       }, */
       {
+        rel: 'dns-prefetch',
+        href: 'https://images.unsplash.com/photo-1543699936-c901ddbf0c05?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=20',
+      },
+      /* {
         rel: 'preconnect',
         href: 'https://fonts.googleapis.com',
       },
@@ -31,9 +35,13 @@ export default {
         rel: 'preconnect',
         href: 'https://fonts.gstatic.com',
         crossorigin: true,
-      },
-      {
+      }, */
+      /* {
         rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap',
+      }, */
+      {
+        rel: 'dns-prefetch',
         href: 'https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap',
       },
     ],
@@ -75,7 +83,18 @@ export default {
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
-      lang: 'en',
+      lang: 'ru',
+      name: "How's weather?",
+    },
+    meta: {
+      name: "How's weather?",
+      author: 'Leonid Radostnov, Леонид Радостнов, prostoleo',
+      description:
+        'Узнайте погоду быстро и легко.Прогноз погоды на 7 дней. Прогноз погоды на 24 часа. Прогноз погоды по миру',
+      theme_color: '#b3eaf9',
+      lang: 'ru',
+      ogHost: 'https://prostoleo-weather.netlify.app',
+      ogImage: true,
     },
   },
 

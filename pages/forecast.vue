@@ -52,7 +52,6 @@ export default defineComponent({
 
     const locationData =
       store.getters.getLocation ?? JSON.parse(localStorage.getItem('location'));
-    console.log('locationData: ', locationData);
 
     return {
       data,

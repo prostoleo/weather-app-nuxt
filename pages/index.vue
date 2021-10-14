@@ -132,7 +132,6 @@
               </div>
 
               <nuxt-link
-                tag="a"
                 to="/details"
                 class="
                   bg-green-500 bg-accent
@@ -170,7 +169,7 @@
                 hover:(!border-opacity-100)
               "
             >
-              <nuxt-link to="/forecast" tag="a" class="text-white">
+              <nuxt-link to="/forecast" class="text-white">
                 Прогноз на 7 дней
               </nuxt-link>
             </h2>
@@ -233,7 +232,6 @@ export default defineComponent({
   setup() {
     // todo используем store
     const store = useStore();
-    console.log('store: ', store);
 
     // const test = store.getters.getTest;
     // const loadingLocal = ref(false);
@@ -271,26 +269,6 @@ export default defineComponent({
     const { windTextualDescription } = useWind(getDataOneCallComputed);
 
     async function showWeatherOnSearch(searchQuery) {
-      console.log('searchQuery: ', searchQuery);
-
-      /* store.dispatch('addQuery', searchQuery);
-      getGeocoding(searchQuery)
-        // .then(() => {
-        //   //* добавляем поисковый запрос в store
-        // })
-        .then(() => {
-          //* добавляем координаты в store
-          // store.addCoords(coords);
-
-          getOneCallData();
-
-          console.log('dataOneCall: ', dataOneCall);
-          console.log('getDataOneCallComputed: ', getDataOneCallComputed);
-        })
-        .then(() => {
-          // loading.value = false;
-        }); */
-
       store.dispatch('addQuery', searchQuery);
 
       await getGeocoding(searchQuery);
@@ -348,7 +326,7 @@ export default defineComponent({
 
 section {
   /* background: url('/public/img/bg/bg-main.jpg'); */
-  background: url(https://images.unsplash.com/photo-1543699936-c901ddbf0c05?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80)
+  background: url(https://images.unsplash.com/photo-1543699936-c901ddbf0c05?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=20)
     hsla(0, 0%, 0%, 40%);
   background-blend-mode: overlay;
   background-size: cover;

@@ -58,7 +58,6 @@ export function useWeather(indexPage = true) {
     loading.value = true;
 
     const dataFromStore = store.getters.getWeather;
-    console.log('dataFromStore: ', dataFromStore);
     const location = store.getters.getLocation;
 
     //* если получили данные из store - записываем данные и выходим из функции
@@ -106,24 +105,18 @@ export function useWeather(indexPage = true) {
 
   // todo удалось получить геоданные
   async function successGetGeoData(pos) {
-    console.log('store.getQuery: ', store.getQuery);
-
     const query = store.getters.getQuery;
 
     loading.value = true;
 
     if (query) {
-      console.log(' грузим существующие данные ');
-
       await getOneCallData();
 
       loading.value = false;
       return;
     }
 
-    console.log('pos: ', pos);
     const cds = pos.coords;
-    console.log('cds: ', cds);
 
     /* coords.lat = cds.latitude;
     coords.lon = cds.longitude; */
@@ -138,8 +131,6 @@ export function useWeather(indexPage = true) {
   }
 
   function failGetGeoData() {
-    console.log('не удалось получить данные о местоположении');
-
     loading.value = true;
     // await getGeocoding();
     // await getOneCallData();
@@ -147,10 +138,8 @@ export function useWeather(indexPage = true) {
   }
 
   async function getGeocoding(query) {
-    console.log('query: ', query);
     loading.value = true;
 
-    console.log('locationData: ', locationData);
     if (!query) {
       throw new Error('не удалось получить данные');
     }
@@ -162,14 +151,12 @@ export function useWeather(indexPage = true) {
         'Accept-Language': 'ru',
       },
     });
-    console.log('response: ', response);
 
     if (!response.ok) {
       throw new Error('Упс, что-то пошло не так ');
     }
 
     const result = await response.json();
-    console.log('result: ', result);
 
     // data.value = result;
     //* сохраняем необходимые данные
@@ -180,7 +167,6 @@ export function useWeather(indexPage = true) {
       latitude: result[0].lat,
       longitude: result[0].lon,
     };
-    console.log('coordsObj: ', coordsObj);
 
     // store.addCoords(coordsObj);
     store.dispatch('addCoords', coordsObj);
@@ -206,8 +192,6 @@ export function useWeather(indexPage = true) {
 
     loading.value = true;
 
-    console.log('coords - reverseGeoCoding: ', coords);
-
     if (!coords) {
       throw new Error(' не удалось получить координаты  ');
     }
@@ -219,14 +203,12 @@ export function useWeather(indexPage = true) {
         'Accept-Language': 'ru',
       },
     });
-    console.log('response: ', response);
 
     if (!response.ok) {
       throw new Error('Упс, что-то пошло не так ');
     }
 
     const result = await response.json();
-    console.log('result: ', result);
 
     // data.value = result;
     //* сохраняем необходимые данные
@@ -241,7 +223,6 @@ export function useWeather(indexPage = true) {
   // todo для oneCall API
   async function getOneCallData() {
     // const store = useWeatherStore();
-    console.log('store: ', store);
     // const coords = store.getters.getCoords;
     const coords =
       store.getters.getCoords ?? JSON.parse(localStorage.getItem('coords'));
@@ -249,28 +230,15 @@ export function useWeather(indexPage = true) {
 
     const exclude = 'minutely,alerts';
 
-    /* const coordsToApi = cds ?? {
-      lat: coords.lat, 
-      lon: coords.lon, 
-    }
-    console.log('coordsToApi: ', coordsToApi); */
-    // console.log('coordsToApi: ', coordsToApi);
-    // const requestOneCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${coordsToApi.lat}&lon=${coordsToApi.lon}&units=metric&&exclude=${exclude}&appid=${API_KEY}&lang=ru`;
-
-    /* console.log('coords.lat: ', coords.lat);
-    console.log('coords.lon: ', coords.lon); */
-
     const requestOneCall = `https://api.openweathermap.org/data/2.5/onecall?lat=${coords.latitude}&lon=${coords.longitude}&units=metric&&exclude=${exclude}&appid=${API_KEY}&lang=ru`;
 
     const responseOneCall = await fetch(requestOneCall);
-    console.log('responseOneCall: ', responseOneCall);
 
     if (!responseOneCall.ok) {
       throw new Error('Упс, что-то пошло не так ');
     }
 
     const resultOneCall = await responseOneCall.json();
-    console.log('resultOneCall: ', resultOneCall);
 
     dataOneCall.value = resultOneCall;
 
@@ -293,10 +261,10 @@ export function useWeather(indexPage = true) {
   watchEffect(
     getWeatherData,
     () => {
-      console.log(' watch effect ');
+      // console.log(' watch effect ');
     },
     {
-      immediate: true,
+      // immediate: true,
     }
   );
 

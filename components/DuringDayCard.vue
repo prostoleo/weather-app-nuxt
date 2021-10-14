@@ -144,9 +144,6 @@ import { defineComponent } from '@nuxtjs/composition-api';
 import { HPA_TO_MM_OF_MERCURY } from '~/config/config.js';
 import { getLocalSunriseSunset } from '~/helpers/helpers.js';
 
-// import { useDate } from '~/composables/useDate.js';
-// console.log('useDate: ', useDate);
-
 export default defineComponent({
   props: {
     data: {
@@ -162,8 +159,6 @@ export default defineComponent({
   },
 
   setup(props) {
-    // console.log('props: ', props);
-
     //* получаем локальное время захода / рассвета
     const time = getLocalSunriseSunset(props.data.dt, props.timezone);
 

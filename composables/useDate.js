@@ -3,8 +3,6 @@ import { computed } from '@nuxtjs/composition-api';
 // import { WEATHER_URL, API_KEY, TIME } from '~/config/config.js';
 
 export function useDate(getData, timezone = null) {
-  console.log('getData: ', getData);
-
   const locale = navigator.language;
 
   // const timezone = tz ?? getData.value?.timezone;
@@ -65,9 +63,6 @@ export function useDate(getData, timezone = null) {
   };
 
   const getLocalSunriseSunset = (time, timezone) => {
-    console.log('time: ', time);
-    console.log('timezone: ', timezone);
-
     if (!time || !timezone) return;
 
     const locale = navigator.language;
@@ -88,8 +83,6 @@ export function useDate(getData, timezone = null) {
       hour: '2-digit',
       minute: '2-digit',
     }).format(newDate);
-
-    console.log('formatedDate: ', formatedDate);
 
     return formatedDate;
     // return Date.UTC(localTS);

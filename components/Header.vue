@@ -25,7 +25,13 @@
         <input
           v-model="inputValue"
           type="text"
-          class="bg-transparent border-b-1 p-1"
+          class="
+            bg-transparent
+            border-b-1
+            p-1
+            focus:(outline-1
+            outline-solid-emerald-600 outline-opacity-50)
+          "
           :class="
             notHome === true
               ? 'text-black border-gray-900'
@@ -51,6 +57,8 @@
           py-2
           px-3
           leading-none
+          hover:(opacity-80)
+          focus:(opacity-80)
         "
         to="/"
       >
@@ -62,12 +70,7 @@
 </template>
 
 <script>
-import {
-  defineComponent,
-  ref,
-  useRouter,
-  // useStore,
-} from '@nuxtjs/composition-api';
+import { defineComponent, ref } from '@nuxtjs/composition-api';
 
 export default defineComponent({
   name: 'Header',
@@ -83,14 +86,6 @@ export default defineComponent({
   emits: ['submit-form'],
 
   setup(props, { emit }) {
-    // todo используем router
-    const router = useRouter();
-    console.log('router: ', router);
-
-    // todo используем store
-    // const store = useStore();
-
-    console.log('props: ', props);
     const inputValue = ref('');
 
     function submitForm() {
