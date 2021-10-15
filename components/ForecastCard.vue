@@ -56,7 +56,7 @@
         <span class="key inline-flex items-center">
           Ветер, {{ windDirection }}, м/с
 
-          <img class="w-6 ml-1" src="/icons/wind.svg" alt="" />
+          <img class="w-6 ml-2" src="/icons/wind.svg" alt="" />
         </span>
 
         <span class="value font-bold">{{ data.wind_speed.toFixed(1) }}</span>
@@ -66,7 +66,7 @@
         <span class="key inline-flex items-center">
           С порывами до, м/с
 
-          <img class="w-6 ml-1" src="/icons/wind.svg" alt="" />
+          <img class="w-6 ml-2" src="/icons/wind.svg" alt="" />
         </span>
 
         <span class="value font-bold">{{ data.wind_gust.toFixed(1) }}</span>
@@ -76,7 +76,7 @@
         <span class="key inline-flex items-center">
           Давление, мм.рт.ст.
 
-          <img class="w-6 ml-1" src="/icons/wind.svg" alt="" />
+          <img class="w-6 ml-2" src="/icons/pressure.svg" alt="" />
         </span>
 
         <span class="value font-bold">{{
@@ -88,7 +88,7 @@
         <span class="key inline-flex items-center">
           Влажность, %
 
-          <img class="w-6 ml-1" src="/icons/humidity.svg" alt="" />
+          <img class="w-6 ml-2" src="/icons/humidity.svg" alt="" />
         </span>
 
         <span class="value font-bold">{{ data.humidity }}</span>
@@ -98,7 +98,7 @@
         <span class="key inline-flex items-center">
           Облачность, %
 
-          <img class="w-6 ml-1" src="/icons/wind.svg" alt="" />
+          <img class="w-6 ml-2" src="/icons/clouds.svg" alt="" />
         </span>
 
         <span class="value font-bold">{{ data.clouds }}</span>
@@ -108,7 +108,7 @@
         <span class="key inline-flex items-center">
           Мин, &#8451;
 
-          <img class="w-6 ml-1" src="/icons/wind.svg" alt="" />
+          <img class="w-6 ml-2" src="/icons/min.svg" alt="" />
         </span>
 
         <span class="value font-bold">
@@ -120,7 +120,7 @@
         <span class="key inline-flex items-center">
           Макс, &#8451;
 
-          <img class="w-6 ml-1" src="/icons/wind.svg" alt="" />
+          <img class="img-max w-6 ml-2" src="/icons/max.svg" alt="" />
         </span>
 
         <span class="value font-bold">
@@ -132,7 +132,7 @@
         <span class="key inline-flex items-center">
           Восход
 
-          <img class="w-6 ml-1" src="/icons/wind.svg" alt="" />
+          <img class="w-6 ml-2" src="/icons/sunrise.svg" alt="" />
         </span>
 
         <span class="value font-bold">{{ timeOfSunrise }}</span>
@@ -142,7 +142,7 @@
         <span class="key inline-flex items-center">
           Закат
 
-          <img class="w-6 ml-1" src="/icons/wind.svg" alt="" />
+          <img class="w-6 ml-2" src="/icons/sunset.svg" alt="" />
         </span>
 
         <span class="value font-bold">
@@ -244,5 +244,9 @@ export default defineComponent({
 
     flex-wrap: wrap;
   }
+}
+
+img.img-max {
+  filter: hue-rotate(20%);
 }
 </style>

@@ -13,6 +13,7 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
       { name: 'format-detection', content: 'telephone=no' },
+      { hid: 'og:image', propery: 'og:image', content: '/icon.png' },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -82,6 +83,10 @@ export default {
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
+    icon: {
+      source: '~/static/icon.png',
+    },
+
     manifest: {
       lang: 'ru',
       name: "How's weather?",
@@ -94,7 +99,11 @@ export default {
       theme_color: '#b3eaf9',
       lang: 'ru',
       ogHost: 'https://prostoleo-weather.netlify.app',
-      ogImage: true,
+      ogImage: {
+        path: '~/static/icon.png',
+        width: 512,
+        height: 512,
+      },
     },
   },
 

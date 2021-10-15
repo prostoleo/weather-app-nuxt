@@ -78,7 +78,11 @@
               "
             >
               <div class="col flex flex-col items-center justify-between">
-                <img src="/icons/min.svg" alt="" class="icon w-5 h-5" />
+                <img
+                  src="/icons/feels-like.svg"
+                  alt=""
+                  class="icon w-5 h-5 opacity-80"
+                />
                 <span class="value block font-bold">
                   {{ Math.round(getDataOneCallComputed.current.feels_like) }}
                 </span>
@@ -88,7 +92,11 @@
               <div
                 class="col flex flex-col items-center justify-between gap-y-1"
               >
-                <img src="/icons/max.svg" alt="" class="icon w-5 h-5" />
+                <img
+                  src="/icons/pressure.svg"
+                  alt=""
+                  class="icon w-5 h-5 opacity-80"
+                />
                 <span class="value block font-bold">
                   {{
                     Math.round(
